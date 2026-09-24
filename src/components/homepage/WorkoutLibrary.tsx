@@ -20,10 +20,7 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
           <Image
             src={workout.image}
             alt={workout.name}
-            // width={900}
-            // height={700}
             fill
-            
             className="object-cover transition duration-300 group-hover:scale-105"
           />
         </div>

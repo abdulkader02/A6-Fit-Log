@@ -24,21 +24,26 @@ const MyPlanDetails = () => {
   const workouts = activeTab === "today" ? plan : saved;
 
   // Sort workouts
-  const sortedWorkouts = [...workouts].sort((a, b) => {
-    if (sortBy === "duration") {
-      return a.duration - b.duration;
-    }
+  const sortedWorkouts = [...workouts].sort(
+    (currentWorkout, nextWorkout) => {
+      if (sortBy === "duration") {
+        return currentWorkout.duration - nextWorkout.duration;
+      }
 
-    if (sortBy === "calories") {
-      return a.caloriesBurned - b.caloriesBurned;
-    }
+      if (sortBy === "calories") {
+        return (
+          currentWorkout.caloriesBurned -
+          nextWorkout.caloriesBurned
+        );
+      }
 
-    if (sortBy === "rating") {
-      return b.rating - a.rating;
-    }
+      if (sortBy === "rating") {
+        return nextWorkout.rating - currentWorkout.rating;
+      }
 
-    return 0;
-  });
+      return 0;
+    }
+  );
 
   // Today's Plan metrics
   const totalExercises = plan.length;
@@ -151,7 +156,7 @@ const MyPlanDetails = () => {
           <div className="relative self-end">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(event) => setSortBy(event.target.value)}
               className="
                 appearance-none rounded-md
                 border border-[#30333a]
