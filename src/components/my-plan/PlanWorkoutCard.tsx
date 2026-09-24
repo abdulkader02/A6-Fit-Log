@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useContext } from "react";
 
 import { IWorkout } from "@/types/workout.type";
+import { WorkoutContext } from "@/context/WorkoutProvider";
 
 import {
   MdAccessTime,
@@ -25,7 +27,12 @@ const PlanWorkoutCard = ({
   onRemove,
   isSaved,
 }: PlanWorkoutCardProps) => {
+  const { markAsDone, completedIds } = useContext(WorkoutContext);
+
+  const isCompleted = completedIds.includes(workout.id);
+
   const handleDone = () => {
+    markAsDone(workout.id);
     toast.success(`${workout.name} marked as done!`);
   };
 
@@ -40,24 +47,17 @@ const PlanWorkoutCard = ({
         flex w-full flex-col gap-4
         rounded-2xl border border-[#20232b]
         bg-[#121418] p-4
-
         sm:p-5
-
         md:flex-row md:items-center md:gap-5
-
         lg:gap-6 lg:p-5
       "
     >
-      {/* Image */}
       <div
         className="
           relative h-48 w-full shrink-0
           overflow-hidden rounded-xl
-
           sm:h-52
-
           md:h-24 md:w-32
-
           lg:h-28 lg:w-40
         "
       >
@@ -74,14 +74,8 @@ const PlanWorkoutCard = ({
         />
       </div>
 
-      {/* Workout Information */}
       <div className="min-w-0 flex-1">
-        <h2
-          className="
-             text-lg font-black uppercase text-white
-            sm:text-xl
-          "
-        >
+        <h2 className="text-lg font-black uppercase text-white sm:text-xl">
           {workout.name}
         </h2>
 
@@ -89,23 +83,17 @@ const PlanWorkoutCard = ({
           {workout.equipment}
         </p>
 
-        {/* Stats */}
         <div
           className="
             mt-4 flex flex-wrap items-center gap-x-4 gap-y-2
             text-[11px] text-[#9b9da5]
           "
         >
-          {/* Duration */}
           <div className="flex items-center gap-1">
-            <MdAccessTime
-              size={16}
-              className="text-[#ccff00]"
-            />
+            <MdAccessTime size={16} className="text-[#ccff00]" />
             <span>{workout.duration} min</span>
           </div>
 
-          {/* Calories */}
           <div className="flex items-center gap-1">
             <MdLocalFireDepartment
               size={16}
@@ -114,26 +102,19 @@ const PlanWorkoutCard = ({
             <span>{workout.caloriesBurned} cal</span>
           </div>
 
-          {/* Rating */}
           <div className="flex items-center gap-1">
-            <MdStar
-              size={16}
-              className="text-[#ccff00]"
-            />
+            <MdStar size={16} className="text-[#ccff00]" />
             <span>{workout.rating}</span>
           </div>
         </div>
       </div>
 
-      {/* Actions */}
       <div
         className="
           flex w-full flex-wrap items-center gap-2
-
           md:w-auto md:shrink-0 md:flex-nowrap
         "
       >
-        {/* View Details */}
         <Link
           href={`/workouts/${workout.id}`}
           className="
@@ -143,36 +124,38 @@ const PlanWorkoutCard = ({
             text-[#ccff00]
             transition hover:bg-[#ccff00]
             hover:text-black
-
             sm:flex-none
           "
         >
           View Details
         </Link>
 
-        {/* Mark as Done - Today's Plan only */}
         {!isSaved && (
           <button
             onClick={handleDone}
-            className="
+            disabled={isCompleted}
+            className={`
               flex flex-1 items-center justify-center
-              gap-1 rounded-md bg-[#ccff00]
+              gap-1 rounded-md
               px-4 py-2.5
               text-[10px] font-black uppercase
-              text-black transition
-              hover:bg-[#b8e600]
-
+              transition
               sm:flex-none
-            "
+              ${
+                isCompleted
+                  ? "cursor-default bg-[#25272d] text-[#ccff00]"
+                  : "bg-[#ccff00] text-black hover:bg-[#b8e600]"
+              }
+            `}
           >
             <MdCheck size={16} />
+
             <span className="whitespace-nowrap">
-              Mark as Done
+              {isCompleted ? "Done" : "Mark as Done"}
             </span>
           </button>
         )}
 
-        {/* Remove */}
         <button
           onClick={handleRemove}
           aria-label={`Remove ${workout.name}`}

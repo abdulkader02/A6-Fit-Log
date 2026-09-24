@@ -6,9 +6,9 @@ import bannerImg from "@/assets/banner.png";
 const Banner = () => {
   return (
     <section className="mx-auto mt-6 w-full px-4 sm:mt-8 sm:px-6 lg:mt-10">
-      <div className="relative mx-auto min-h-[520px] w-full overflow-hidden rounded-2xl bg-[#15171D] px-6 py-10 sm:min-h-[500px] sm:px-10 md:px-12 lg:min-h-[400px] lg:px-16 lg:py-0">
+      <div className="relative mx-auto min-h-130 w-full overflow-hidden rounded-2xl bg-[#15171D] px-6 py-10 sm:min-h-125 sm:px-10 md:px-12 lg:min-h-100 lg:px-16 lg:py-0">
 
-        <div className="grid h-full min-h-[460px] items-center lg:grid-cols-2 lg:min-h-[400px]">
+        <div className="grid h-full min-h-115 items-center lg:grid-cols-2 lg:min-h-100">
 
           {/* Left Content */}
           <div className="z-10 max-w-2xl">
@@ -24,8 +24,8 @@ const Banner = () => {
             </h1>
 
             <p className="mt-5 max-w-xl text-sm leading-6 text-gray-400 sm:text-base">
-              FitLog is a dark, no-nonsense gym companion: pick a lift, lock it <br />
-              into today's plan, and watch the week's work add up.
+              FitLog is a dark, no-nonsense gym companion: pick a lift, lock it 
+              into today&apos;s plan, and watch the week&apos;s work add up.
             </p>
 
             <Link

@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import Link from "next/link";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 import PlanWorkoutCard from "@/components/my-plan/PlanWorkoutCard";
 import { WorkoutContext } from "@/context/WorkoutProvider";
@@ -16,8 +17,28 @@ const MyPlanDetails = () => {
 
   const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
 
+  // Sort state
+  const [sortBy, setSortBy] = useState("duration");
+
   // Show Today's Plan or Saved workouts
   const workouts = activeTab === "today" ? plan : saved;
+
+  // Sort workouts
+  const sortedWorkouts = [...workouts].sort((a, b) => {
+    if (sortBy === "duration") {
+      return a.duration - b.duration;
+    }
+
+    if (sortBy === "calories") {
+      return a.caloriesBurned - b.caloriesBurned;
+    }
+
+    if (sortBy === "rating") {
+      return b.rating - a.rating;
+    }
+
+    return 0;
+  });
 
   // Today's Plan metrics
   const totalExercises = plan.length;
@@ -94,8 +115,10 @@ const MyPlanDetails = () => {
 
         </div>
 
-        {/* Tabs */}
-        <div className="mt-8">
+        {/* Tabs + Sort */}
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+          {/* Tabs */}
           <div className="inline-flex w-full rounded-xl border border-[#20232b] bg-[#121418] p-1 sm:w-auto">
 
             {/* Today's plan */}
@@ -123,12 +146,45 @@ const MyPlanDetails = () => {
             </button>
 
           </div>
+
+          {/* Sort By */}
+          <div className="relative self-end">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="
+                appearance-none rounded-md
+                border border-[#30333a]
+                bg-[#14161a]
+                py-2.5 pl-3 pr-9
+                text-xs font-bold
+                text-white
+                outline-none
+                focus:border-[#ccff00]
+              "
+            >
+              <option value="duration">Duration</option>
+              <option value="calories">Calories</option>
+              <option value="rating">Rating</option>
+            </select>
+
+            <MdKeyboardArrowDown
+              size={18}
+              className="
+                pointer-events-none
+                absolute right-2 top-1/2
+                -translate-y-1/2
+                text-[#858992]
+              "
+            />
+          </div>
+
         </div>
 
         {/* Workouts */}
         <div className="mt-6">
 
-          {workouts.length === 0 ? (
+          {sortedWorkouts.length === 0 ? (
             <div className="flex min-h-75 flex-col items-center justify-center rounded-2xl border border-dashed border-[#20232b] bg-[#121418]/50 px-5 text-center">
 
               <h2 className="text-xl font-black uppercase">
@@ -150,7 +206,7 @@ const MyPlanDetails = () => {
           ) : (
             <div className="flex flex-col gap-4">
 
-              {workouts.map((workout) => (
+              {sortedWorkouts.map((workout) => (
                 <PlanWorkoutCard
                   key={workout.id}
                   workout={workout}

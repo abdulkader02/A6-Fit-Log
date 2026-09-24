@@ -1,32 +1,40 @@
 "use client";
+
 import { IWorkout } from "@/types/workout.type";
 import React, { createContext, ReactNode, useState } from "react";
 
 interface WorkoutContextType {
   plan: IWorkout[];
   saved: IWorkout[];
+  completedIds: number[];
 
   addToPlan: (workout: IWorkout) => boolean;
   saveWorkout: (workout: IWorkout) => boolean;
 
   removeFromPlan: (id: number) => void;
   removeFromSaved: (id: number) => void;
+
+  markAsDone: (id: number) => void;
 }
 
 export const WorkoutContext = createContext<WorkoutContextType>({
   plan: [],
   saved: [],
+  completedIds: [],
 
   addToPlan: () => false,
   saveWorkout: () => false,
 
   removeFromPlan: () => {},
   removeFromSaved: () => {},
+
+  markAsDone: () => {},
 });
 
 const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   const [plan, setPlan] = useState<IWorkout[]>([]);
   const [saved, setSaved] = useState<IWorkout[]>([]);
+  const [completedIds, setCompletedIds] = useState<number[]>([]);
 
   const addToPlan = (workout: IWorkout) => {
     if (plan.some((item) => item.id === workout.id)) {
@@ -60,13 +68,25 @@ const WorkoutProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const markAsDone = (id: number) => {
+    setCompletedIds((currentIds) => {
+      if (currentIds.includes(id)) {
+        return currentIds;
+      }
+
+      return [...currentIds, id];
+    });
+  };
+
   const sharedData = {
     plan,
     saved,
+    completedIds,
     addToPlan,
     saveWorkout,
     removeFromPlan,
     removeFromSaved,
+    markAsDone,
   };
 
   return (
