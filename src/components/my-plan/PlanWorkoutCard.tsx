@@ -31,7 +31,7 @@ const PlanWorkoutCard = ({
 
   const handleRemove = () => {
     onRemove(workout.id);
-    toast.success(`${workout.name} removed!`);
+    toast.error(`${workout.name} removed!`);
   };
 
   return (
@@ -78,7 +78,7 @@ const PlanWorkoutCard = ({
       <div className="min-w-0 flex-1">
         <h2
           className="
-            truncate text-lg font-black uppercase text-white
+             text-lg font-black uppercase text-white
             sm:text-xl
           "
         >

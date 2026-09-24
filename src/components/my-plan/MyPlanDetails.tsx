@@ -98,7 +98,7 @@ const MyPlanDetails = () => {
         <div className="mt-8">
           <div className="inline-flex w-full rounded-xl border border-[#20232b] bg-[#121418] p-1 sm:w-auto">
 
-            {/* Today's Plan */}
+            {/* Today's plan */}
             <button
               onClick={() => setActiveTab("today")}
               className={`flex-1 rounded-lg px-4 py-2.5 text-xs font-bold transition sm:flex-none ${
