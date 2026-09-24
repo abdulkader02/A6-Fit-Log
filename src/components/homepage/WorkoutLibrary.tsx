@@ -7,9 +7,9 @@ interface WorkoutCardProps {
 }
 
 const WorkoutCard = ({ workout }: WorkoutCardProps) => {
-  const categories = Array.isArray(workout.category)
-    ? workout.category
-    : [workout.category];
+  const categories = Array.isArray(workout.muscleGroups)
+    ? workout.muscleGroups
+    : [workout.muscleGroups];
 
   return (
     <Link href={`/workouts/${workout.id}`} className="group block">
@@ -87,7 +87,7 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
                   <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.19 3.58-8.24 6.84-11.4a1 1 0 011.53.25c.87 1.4 1.83 2.72 2.63 3.9.72-1.07 1.25-2.2 1.58-3.32a1 1 0 011.83-.17C18.66 8.04 21 11.52 21 15c0 4.42-4.03 8-9 8z" />
                 </svg>
 
-                {workout.calories} kcal
+                {workout.caloriesBurned} kcal
               </span>
 
               {/* Rating */}

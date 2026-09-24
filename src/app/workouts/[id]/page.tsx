@@ -1,12 +1,21 @@
-import WorkoutDetails from '@/components/workout-details/WorkoutDetails';
-import React from 'react';
+import WorkoutDetails from "@/components/workout-details/WorkoutDetails";
 
-const page = () => {
-    return (
-        <div>
-            <WorkoutDetails/>
-        </div>
-    );
+const WorkoutDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+
+  const response = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Workout not found");
+  }
+
+  const workout = await response.json();
+
+  return <WorkoutDetails workout={workout} />;
 };
 
-export default page;
+export default WorkoutDetailsPage;
