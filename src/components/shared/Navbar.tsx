@@ -3,22 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
+import { usePathname } from "next/navigation";
 
 import logo from "@/assets/logo.png";
 import { WorkoutContext } from "@/context/WorkoutProvider";
 
 const Navbar = () => {
   const { plan, saved } = useContext(WorkoutContext);
+  const pathname = usePathname();
 
   return (
     <nav className="border-b border-[#25272d] bg-[#0d0f12]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-5">
 
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-2"
-        >
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src={logo}
             alt="FITLOG Logo"
@@ -32,135 +31,62 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Navigation */}
+        <div className="hidden md:flex">
+          <div className="tabs tabs-boxed rounded-3xl border border-[#25272d] bg-[#14161a] p-1">
 
-          <Link
-            href="/"
-            className="text-sm font-medium text-[#ccff00] transition hover:text-white"
-          >
-            Workout
-          </Link>
+            <Link
+              href="/"
+              className={`tab rounded-3xl text-xs font-semibold ${
+                pathname === "/"
+                  ? "tab-active bg-[#25272d] text-[#ccff00]"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Workouts
+            </Link>
 
-          <Link
-            href="/my-plan"
-            className="text-sm font-medium text-gray-400 transition hover:text-white"
-          >
-            My Plan
-          </Link>
+            <Link
+              href="/my-plan"
+              className={`tab rounded-3xl text-xs font-semibold ${
+                pathname === "/my-plan"
+                  ? "tab-active bg-[#25272d] text-[#ccff00]"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              My Plan
+            </Link>
 
+          </div>
         </div>
 
-        {/* Right Side */}
+        {/* Right side */}
         <div className="flex items-center gap-2">
-
-          {/* Desktop Counters */}
           <div className="hidden items-center gap-2 sm:flex">
 
-            {/* Plan */}
             <Link
               href="/my-plan"
-              className="flex items-center gap-2 rounded-full bg-[#ccff00] px-3 py-1.5 text-xs font-bold text-black transition hover:bg-[#d8ff4d]"
+              className="btn btn-xs rounded-full border-none bg-[#ccff00] font-bold text-black hover:bg-[#d8ff4d]"
             >
-              <span>Plan</span>
-              <span>{plan.length}</span>
+              Plan
+              <span className="badge badge-sm border-none bg-black text-[#ccff00]">
+                {plan.length}
+              </span>
             </Link>
 
-            {/* Saved */}
             <Link
               href="/my-plan"
-              className="flex items-center gap-2 rounded-full border border-[#3a3d43] px-3 py-1.5 text-xs font-bold text-[#d1d5db] transition hover:border-[#ccff00] hover:text-white"
+              className="btn btn-xs rounded-full border-[#3a3d43] text-gray-300 hover:border-[#ccff00] hover:bg-transparent hover:text-white"
             >
-              <span>Saved</span>
-              <span>{saved.length}</span>
+              Saved
+              <span className="badge badge-sm border-none bg-[#25272d] text-gray-300">
+                {saved.length}
+              </span>
             </Link>
 
           </div>
-
-          {/* Mobile Menu */}
-          <div className="dropdown dropdown-end md:hidden">
-
-            <button
-              tabIndex={0}
-              className="btn btn-ghost btn-sm px-2 text-white hover:bg-[#181b20]"
-              aria-label="Open navigation menu"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content z-50 mt-3 w-48 rounded-xl border border-[#25272d] bg-[#14161a] p-2 shadow-xl"
-            >
-
-              {/* Workout */}
-              <li>
-                <Link
-                  href="/workout"
-                  className="text-[#ccff00]"
-                >
-                  Workout
-                </Link>
-              </li>
-
-              {/* My Plan */}
-              <li>
-                <Link
-                  href="/my-plan"
-                  className="text-gray-300"
-                >
-                  My Plan
-                </Link>
-              </li>
-
-              <div className="my-1 border-t border-[#25272d]" />
-
-              {/* Mobile Plan */}
-              <li>
-                <Link
-                  href="/my-plan"
-                  className="text-gray-300"
-                >
-                  <span>Plan</span>
-
-                  <span className="ml-auto rounded-full bg-[#ccff00] px-2 py-0.5 text-[10px] font-bold text-black">
-                    {plan.length}
-                  </span>
-                </Link>
-              </li>
-
-              {/* Mobile Saved */}
-              <li>
-                <Link
-                  href="/my-plan"
-                  className="text-gray-300"
-                >
-                  <span>Saved</span>
-
-                  <span className="ml-auto rounded-full border border-[#3a3d43] px-2 py-0.5 text-[10px] font-bold text-gray-300">
-                    {saved.length}
-                  </span>
-                </Link>
-              </li>
-
-            </ul>
-
-          </div>
-
         </div>
+
       </div>
     </nav>
   );
