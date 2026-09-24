@@ -17,7 +17,12 @@ const SaveWorkoutButton = ({
   const { saveWorkout } = useContext(WorkoutContext);
 
   const handleSave = () => {
-    saveWorkout(workout);
+    const saved = saveWorkout(workout);
+
+    if (!saved) {
+      toast.error("This workout is already saved!");
+      return;
+    }
 
     toast.success("Saved for later");
   };

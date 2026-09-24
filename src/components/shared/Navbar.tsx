@@ -1,14 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
+
 import logo from "@/assets/logo.png";
+import { WorkoutContext } from "@/context/WorkoutProvider";
 
 const Navbar = () => {
+  const { plan, saved } = useContext(WorkoutContext);
+
   return (
     <nav className="border-b border-[#25272d] bg-[#0d0f12]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-5">
 
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-2">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2"
+        >
           <Image
             src={logo}
             alt="FITLOG Logo"
@@ -24,8 +34,9 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 md:flex">
+
           <Link
-            href="/workout"
+            href="/"
             className="text-sm font-medium text-[#ccff00] transition hover:text-white"
           >
             Workout
@@ -37,6 +48,7 @@ const Navbar = () => {
           >
             My Plan
           </Link>
+
         </div>
 
         {/* Right Side */}
@@ -51,7 +63,7 @@ const Navbar = () => {
               className="flex items-center gap-2 rounded-full bg-[#ccff00] px-3 py-1.5 text-xs font-bold text-black transition hover:bg-[#d8ff4d]"
             >
               <span>Plan</span>
-              <span>0</span>
+              <span>{plan.length}</span>
             </Link>
 
             {/* Saved */}
@@ -60,7 +72,7 @@ const Navbar = () => {
               className="flex items-center gap-2 rounded-full border border-[#3a3d43] px-3 py-1.5 text-xs font-bold text-[#d1d5db] transition hover:border-[#ccff00] hover:text-white"
             >
               <span>Saved</span>
-              <span>0</span>
+              <span>{saved.length}</span>
             </Link>
 
           </div>
@@ -93,6 +105,8 @@ const Navbar = () => {
               tabIndex={0}
               className="menu dropdown-content z-50 mt-3 w-48 rounded-xl border border-[#25272d] bg-[#14161a] p-2 shadow-xl"
             >
+
+              {/* Workout */}
               <li>
                 <Link
                   href="/workout"
@@ -102,6 +116,7 @@ const Navbar = () => {
                 </Link>
               </li>
 
+              {/* My Plan */}
               <li>
                 <Link
                   href="/my-plan"
@@ -113,29 +128,34 @@ const Navbar = () => {
 
               <div className="my-1 border-t border-[#25272d]" />
 
+              {/* Mobile Plan */}
               <li>
                 <Link
                   href="/my-plan"
                   className="text-gray-300"
                 >
-                  Plan
+                  <span>Plan</span>
+
                   <span className="ml-auto rounded-full bg-[#ccff00] px-2 py-0.5 text-[10px] font-bold text-black">
-                    0
+                    {plan.length}
                   </span>
                 </Link>
               </li>
 
+              {/* Mobile Saved */}
               <li>
                 <Link
                   href="/my-plan"
                   className="text-gray-300"
                 >
-                  Saved
+                  <span>Saved</span>
+
                   <span className="ml-auto rounded-full border border-[#3a3d43] px-2 py-0.5 text-[10px] font-bold text-gray-300">
-                    0
+                    {saved.length}
                   </span>
                 </Link>
               </li>
+
             </ul>
 
           </div>

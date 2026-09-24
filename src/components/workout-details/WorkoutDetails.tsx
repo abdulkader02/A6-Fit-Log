@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { IWorkout } from "@/types/workout.type";
-import { CiSaveDown2 } from "react-icons/ci";
-import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import SaveWorkoutButton from "./SaveWorkoutButton";
 import AddToPlanButton from "./AddToPlanButton";
 

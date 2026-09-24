@@ -1,26 +1,27 @@
 "use client";
-
 import { IWorkout } from "@/types/workout.type";
-import React, {
-  createContext,
-  ReactNode,
-  useState,
-} from "react";
+import React, { createContext, ReactNode, useState } from "react";
 
 interface WorkoutContextType {
   plan: IWorkout[];
   saved: IWorkout[];
 
-  addToPlan: (workout: IWorkout) => void;
-  saveWorkout: (workout: IWorkout) => void;
+  addToPlan: (workout: IWorkout) => boolean;
+  saveWorkout: (workout: IWorkout) => boolean;
+
+  removeFromPlan: (id: number) => void;
+  removeFromSaved: (id: number) => void;
 }
 
 export const WorkoutContext = createContext<WorkoutContextType>({
   plan: [],
   saved: [],
 
-  addToPlan: () => {},
-  saveWorkout: () => {},
+  addToPlan: () => false,
+  saveWorkout: () => false,
+
+  removeFromPlan: () => {},
+  removeFromSaved: () => {},
 });
 
 const WorkoutProvider = ({ children }: { children: ReactNode }) => {
@@ -28,11 +29,35 @@ const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   const [saved, setSaved] = useState<IWorkout[]>([]);
 
   const addToPlan = (workout: IWorkout) => {
+    if (plan.some((item) => item.id === workout.id)) {
+      return false;
+    }
+
     setPlan((currentPlan) => [...currentPlan, workout]);
+
+    return true;
   };
 
   const saveWorkout = (workout: IWorkout) => {
+    if (saved.some((item) => item.id === workout.id)) {
+      return false;
+    }
+
     setSaved((currentSaved) => [...currentSaved, workout]);
+
+    return true;
+  };
+
+  const removeFromPlan = (id: number) => {
+    setPlan((currentPlan) =>
+      currentPlan.filter((workout) => workout.id !== id)
+    );
+  };
+
+  const removeFromSaved = (id: number) => {
+    setSaved((currentSaved) =>
+      currentSaved.filter((workout) => workout.id !== id)
+    );
   };
 
   const sharedData = {
@@ -40,6 +65,8 @@ const WorkoutProvider = ({ children }: { children: ReactNode }) => {
     saved,
     addToPlan,
     saveWorkout,
+    removeFromPlan,
+    removeFromSaved,
   };
 
   return (
