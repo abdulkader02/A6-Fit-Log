@@ -1,5 +1,7 @@
 # FITLOG
 
+LIVE LINK : https://a6-fit-log-roan.vercel.app/
+
 A modern and responsive workout tracking web application built with Next.js and Tailwind CSS. FITLOG allows users to browse workouts, view workout details, create a daily workout plan, and save workouts for later.
 
 ## 🚀 Technologies Used
